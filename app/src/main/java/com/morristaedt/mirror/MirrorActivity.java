@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.util.Log;
+
 
 import com.morristaedt.mirror.configuration.ConfigurationSettings;
 import com.morristaedt.mirror.modules.BirthdayModule;
@@ -203,7 +205,6 @@ public class MirrorActivity extends ActionBarActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setViewState();
-        numUpdates = numUpdates++ % 1440;
     }
 
     private void setViewState() {
@@ -221,8 +222,10 @@ public class MirrorActivity extends ActionBarActivity {
         mWaterPlants.setVisibility(ChoresModule.waterPlantsToday() ? View.VISIBLE : View.GONE);
         mGroceryList.setVisibility(ChoresModule.makeGroceryListToday() ? View.VISIBLE : View.GONE);
 
+        Log.v("setviewstate", "numupdates = " + numUpdates);
         // Update every 10 minutes only
         if (numUpdates%10 == 0) {
+            Log.v("gethourly","numupdates = " + numUpdates);
             ForecastModule.getHourlyForecast(getResources(), mConfigSettings.getForecastUnits(), mConfigSettings.getLatitude(), mConfigSettings.getLongitude(), mForecastListener);
         }
         if (mConfigSettings.showNewsHeadline()) {
@@ -256,6 +259,10 @@ public class MirrorActivity extends ActionBarActivity {
         } else {
             mMoodText.setVisibility(View.GONE);
         }
+
+        numUpdates++;
+        numUpdates = numUpdates % 1440;
+
     }
 
     private void showDemoMode() {
