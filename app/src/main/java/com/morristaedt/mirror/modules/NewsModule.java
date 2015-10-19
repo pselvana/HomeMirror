@@ -11,12 +11,14 @@ import org.mcsoxford.rss.RSSReaderException;
  * Created by alex on 21/09/15.
  */
 public class NewsModule {
-    private static int numUpdates = 0;
     public interface NewsListener {
         void onNewNews(String headline);
     }
 
-    public static RSSFeed feed;
+    private static int numUpdates = 0;
+    private static RSSFeed feed;
+    private static int maxStories = 1; // Sensible default
+    private static int refreshInMin = 30;
     public static void getNewsHeadline(final NewsListener newsListener) {
         new AsyncTask<Void, Void, String>() {
             @Override
@@ -29,15 +31,17 @@ public class NewsModule {
             protected String doInBackground(Void... params) {
                 numUpdates++;
                 RSSReader rssReader = new RSSReader();
-                String url = "http://feeds.bbci.co.uk/news/world/rss.xml?edition=us";
+                String url = "http://rss.cnn.com/rss/cnn_world.rss";
+                //String url = "http://feeds.bbci.co.uk/news/world/rss.xml?edition=us";
 
-                // Pick up latest news every 10 minutes only
-                if (numUpdates % 10 == 1)
+                // Pick up latest news every 30 minutes only
+                if (numUpdates % refreshInMin == 1)
                 {
                     try {
                         feed = rssReader.load(url);
+                        maxStories = Math.min(feed.getItems().size(), refreshInMin);
 
-                        return feed.getItems().get(numUpdates%30).getTitle();
+                        return feed.getItems().get(numUpdates%maxStories).getTitle();
                     } catch (RSSReaderException e) {
                         Log.e("NewsModule", "Error parsing RSS");
                         return null;
@@ -46,7 +50,7 @@ public class NewsModule {
                 else
                 {
                     // Show cached news and change it every minute
-                    return feed.getItems().get(numUpdates%30).getTitle();
+                    return feed.getItems().get(numUpdates%maxStories).getTitle();
                 }
 
             }
