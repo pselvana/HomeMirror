@@ -53,6 +53,7 @@ public class MirrorActivity extends ActionBarActivity {
     private TextView mNewsHeadline;
     private TextView mCalendarTitleText;
     private TextView mCalendarDetailsText;
+    private int numUpdates = 0;
 
     private XKCDModule.XKCDListener mXKCDListener = new XKCDModule.XKCDListener() {
         @Override
@@ -202,6 +203,7 @@ public class MirrorActivity extends ActionBarActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setViewState();
+        numUpdates = numUpdates++ % 1440;
     }
 
     private void setViewState() {
@@ -219,8 +221,10 @@ public class MirrorActivity extends ActionBarActivity {
         mWaterPlants.setVisibility(ChoresModule.waterPlantsToday() ? View.VISIBLE : View.GONE);
         mGroceryList.setVisibility(ChoresModule.makeGroceryListToday() ? View.VISIBLE : View.GONE);
 
-        ForecastModule.getHourlyForecast(getResources(), mConfigSettings.getForecastUnits(), mConfigSettings.getLatitude(), mConfigSettings.getLongitude(), mForecastListener);
-
+        // Update every 10 minutes only
+        if (numUpdates%10 == 0) {
+            ForecastModule.getHourlyForecast(getResources(), mConfigSettings.getForecastUnits(), mConfigSettings.getLatitude(), mConfigSettings.getLongitude(), mForecastListener);
+        }
         if (mConfigSettings.showNewsHeadline()) {
             NewsModule.getNewsHeadline(mNewsListener);
         } else {
