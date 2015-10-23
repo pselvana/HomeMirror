@@ -19,6 +19,7 @@ public class ConfigurationSettings {
     private static final String SHOW_CALENDAR = "show_calendar";
     private static final String SHOW_HEADLINE = "show_headline";
     private static final String SHOW_XKCD = "xkcd";
+    private static final String USE_BOTTOM_LAYOUT = "use_bottom_layout";
     private static final String INVERT_XKCD = "invert_xkcd";
     private static final String LAT = "lat";
     private static final String LON = "lon";
@@ -34,6 +35,7 @@ public class ConfigurationSettings {
     private boolean mShowNewsHeadline;
     private boolean mShowXKCD;
     private boolean mInvertXKCD;
+    private boolean mBottomLayout;
 
     private String mLatitude;
     private String mLongitude;
@@ -52,6 +54,8 @@ public class ConfigurationSettings {
         mShowNewsHeadline = mSharedPrefs.getBoolean(SHOW_HEADLINE, false);
         mShowXKCD = mSharedPrefs.getBoolean(SHOW_XKCD, false);
         mInvertXKCD = mSharedPrefs.getBoolean(INVERT_XKCD, false);
+        mBottomLayout = mSharedPrefs.getBoolean(USE_BOTTOM_LAYOUT,false);
+
 
         mLatitude = mSharedPrefs.getString(LAT, "");
         mLongitude = mSharedPrefs.getString(LON, "");
@@ -92,6 +96,13 @@ public class ConfigurationSettings {
         SharedPreferences.Editor editor = mSharedPrefs.edit();
         editor.putBoolean(SHOW_XKCD, showXKCD);
         editor.putBoolean(INVERT_XKCD, invertXKCDColors);
+        editor.apply();
+    }
+
+    public void setBottomLayoutPreference(boolean moveToBottom) {
+        mBottomLayout = moveToBottom;
+        SharedPreferences.Editor editor = mSharedPrefs.edit();
+        editor.putBoolean(USE_BOTTOM_LAYOUT, moveToBottom);
         editor.apply();
     }
 
@@ -140,6 +151,11 @@ public class ConfigurationSettings {
     public boolean invertXKCD() {
         return mInvertXKCD;
     }
+
+    public boolean bottomLayout() {
+        return mBottomLayout;
+    }
+
 
     public String getLatitude() {
         return mLatitude;

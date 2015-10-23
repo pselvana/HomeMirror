@@ -102,6 +102,15 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="@string/invert_colors" />
+
+            <CheckBox
+                android:id="@+id/bottomLayout_checkbox"
+                style="@style/ConfigurationItemText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/bottom_layout" />
         </LinearLayout>
 
         <LinearLayout

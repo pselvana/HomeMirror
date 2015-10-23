@@ -51,6 +51,7 @@ public class MirrorActivity extends ActionBarActivity {
     private View mWaterPlants;
     private View mGroceryList;
     private ImageView mXKCDImage;
+    private TextView mBottomLayoutText;
     private MoodModule mMoodModule;
     private TextView mNewsHeadline;
     private TextView mCalendarTitleText;
@@ -173,6 +174,7 @@ public class MirrorActivity extends ActionBarActivity {
         mStockText = (TextView) findViewById(R.id.stock_text);
         mMoodText = (TextView) findViewById(R.id.mood_text);
         mXKCDImage = (ImageView) findViewById(R.id.xkcd_image);
+        mBottomLayoutText = (TextView) findViewById(R.id.bottomLayout_text);
         mNewsHeadline = (TextView) findViewById(R.id.news_headline);
         mCalendarTitleText = (TextView) findViewById(R.id.calendar_title);
         mCalendarDetailsText = (TextView) findViewById(R.id.calendar_details);
@@ -238,6 +240,14 @@ public class MirrorActivity extends ActionBarActivity {
             XKCDModule.getXKCDForToday(mXKCDListener);
         } else {
             mXKCDImage.setVisibility(View.GONE);
+        }
+
+        if (mConfigSettings.bottomLayout()){
+            mBottomLayoutText.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            mBottomLayoutText.setVisibility(View.GONE);
         }
 
         if (mConfigSettings.showNextCalendarEvent()) {

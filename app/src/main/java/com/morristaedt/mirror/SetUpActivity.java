@@ -41,6 +41,7 @@ public class SetUpActivity extends Activity {
     private CheckBox mShowNewsHeadlineCheckbox;
     private CheckBox mXKCDCheckbox;
     private CheckBox mXKCDInvertCheckbox;
+    private CheckBox mBottomLayoutCheckbox;
     private View mLocationView;
     private EditText mLatitude;
     private EditText mLongitude;
@@ -70,6 +71,9 @@ public class SetUpActivity extends Activity {
 
         mXKCDInvertCheckbox = (CheckBox) findViewById(R.id.xkcd_invert_checkbox);
         mXKCDInvertCheckbox.setChecked(mConfigSettings.invertXKCD());
+
+        mBottomLayoutCheckbox = (CheckBox) findViewById(R.id.bottomLayout_checkbox);
+        mBottomLayoutCheckbox.setChecked(mConfigSettings.bottomLayout());
 
         mLatitude = (EditText) findViewById(R.id.latitude);
         mLongitude = (EditText) findViewById(R.id.longitude);
@@ -155,6 +159,8 @@ public class SetUpActivity extends Activity {
         mConfigSettings.setShowNextCalendarEvent(mShowNextCaledarEventCheckbox.isChecked());
         mConfigSettings.setShowNewsHeadline(mShowNewsHeadlineCheckbox.isChecked());
         mConfigSettings.setXKCDPreference(mXKCDCheckbox.isChecked(), mXKCDInvertCheckbox.isChecked());
+        mConfigSettings.setBottomLayoutPreference(mBottomLayoutCheckbox.isChecked());
+
 
         if (mLocation == null) {
             mConfigSettings.setLatLon(mLatitude.getText().toString(), mLongitude.getText().toString());
